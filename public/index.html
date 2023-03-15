@@ -1,0 +1,20 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.2.8/firebase-app.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.2.8/firebase-auth.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.2.8/firebase-database.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<div id="scoreboard" style="height: max-content;">
+  <link rel="stylesheet" href="styles.css">
+    <div class="team" id="team1">
+      <h2>Team 1</h2>
+      <span id="team1-score">0</span>
+    </div>
+    <div class="team" id="team2">
+      <h2>Team 2</h2>
+      <span id="team2-score">0</span>
+    </div>
+    <script src="core.js"></script>
+  </div>
+<div>
+  <button id="team1-add-point" onclick="team1add()">Team 1 add </button>
+  <button id="team2-add-point" onclick="team2add()">Team 2 add </button>
+</div>
+  
