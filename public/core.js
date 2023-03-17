@@ -1,4 +1,6 @@
 // Initialize Firebase
+var $$ = function( id ) { return document.getElementById( id ); };
+
 const firebaseConfig = {
     apiKey: "AIzaSyCcLv7qUiraxWQZAs2jqrzCtnjDneaG0zI",
     authDomain: "wontec-bc185.firebaseapp.com",
@@ -9,33 +11,58 @@ const firebaseConfig = {
     appId: "1:1080716032663:web:5e454ec353a7495fa547d2"
   };
     firebase.initializeApp(firebaseConfig);
-
+    //globals
+mainmark = 0
+mainouts = 0
     // Get a reference to the database
 const database = firebase.database();
 
-// Function
+//Elements
+const scorelabel = document.getElementById('mainscore');
+const bat1 = document.getElementById('bat1');
+const bat2 = document.getElementById('bat2');
+const bowname = document.getElementById('bowname');
 
-// Get references to the score elements
-const team1Score = document.getElementById('team1-score');
-const team2Score = document.getElementById('team2-score');
+database.ref('scores/main/marks').on('value', snapshot => {
+    const score = snapshot.val();
+    mainmark = score;
+    scorelabel.textContent = mainmark+"-"+mainouts;
+  });
 
-// Set up event listeners to update the score when it changes
-function team1add() {
-  database.ref('team1/score').transaction(score => score + 1);
-};
+  database.ref('scores/main/out').on('value', snapshot => {
+    const score = snapshot.val();
+    mainouts = score;
+    scorelabel.textContent = mainmark+"-"+mainouts;
 
-function team2add() {
-    database.ref('team2/score').transaction(score => score + 1);
-  };
+    database.ref('player/bat1/name').on('value', snapshot => {
+        bat1.textContent = snapshot.val();
+      });
+      database.ref('player/bat2/name').on('value', snapshot => {
+        bat2.textContent = snapshot.val();
+      });
+      database.ref('player/bow/name').on('value', snapshot => {
+        bowname.textContent = snapshot.val();
+      });
+      database.ref('stats/arrow').on('value', snapshot => {
+        var arrn = snapshot.val()
+        if (parseInt(arrn)==1){
+togglearr(2)
+        } else{
+togglearr(1)
 
+        }
+      
+      });
+  });
 
-// Listen for changes to the score in the database and update the scoreboard
-database.ref('team1/score').on('value', snapshot => {
-  const score = snapshot.val();
-  team1Score.textContent = score;
-});
+  function togglearr(a){
+if (a==1){
+    $$('arr2').style.display = "none"
+    $$('arr1').style.display = "block"
 
-database.ref('team2/score').on('value', snapshot => {
-  const score = snapshot.val();
-  team2Score.textContent = score;
-});
+} else{
+    $$('arr2').style.display = "block"
+    $$('arr1').style.display = "none"
+}
+  }
+ 
