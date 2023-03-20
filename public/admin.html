@@ -17,6 +17,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.2.8/firebase-app.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.2.8/firebase-auth.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.2.8/firebase-database.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" crossorigin="anonymous"  referrerpolicy="no-referrer"></script>
+
 <script src="sweetalert2@11.js"></script>    
     <script type="application/ld+json">{
 		"@context": "http://schema.org",
@@ -74,7 +76,7 @@
             </div>
             <div class="u-container-style u-list-item u-repeater-item">
               <div class="u-container-layout u-similar-container u-container-layout-8">
-                <a  class="u-border-none u-btn u-btn-round u-button-style u-custom-item u-gradient u-none u-radius-27 u-text-body-alt-color u-btn-7">0</a>
+                <a  class="u-border-none u-btn u-btn-round u-button-style u-custom-item u-gradient u-none u-radius-27 u-text-body-alt-color u-btn-7" onclick="quickm(0)">0</a>
               </div>
             </div>
           </div>
@@ -84,26 +86,26 @@
         </h2>
         <h2 class="u-custom-font u-font-montserrat u-text u-text-custom-color-2 u-text-default u-text-5" id="scorelabel"><b>100-02</b>
         </h2>
-        <h3 class="u-custom-font u-font-montserrat u-text u-text-default u-text-6">Batsman: Testing Name&nbsp;</h3>
+        <h3 class="u-custom-font u-font-montserrat u-text u-text-default u-text-6" id="ballno">Ball Count Reset&nbsp;</h3>
         <a  class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-8" onclick="togglebat()"><b>🏏​&nbsp;Toggle batsman </b>
         </a>
-        <a  class="u-border-none u-btn u-btn-round u-button-style u-custom-color-2 u-hover-palette-5-dark-3 u-radius-50 u-btn-9"><b>&nbsp;🏳️ WICKET</b>
+        <a  class="u-border-none u-btn u-btn-round u-button-style u-custom-color-2 u-hover-palette-5-dark-3 u-radius-50 u-btn-9" onclick="wicket()"><b>&nbsp;🏳️ WICKET</b>
         </a>
-        <a  class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-10"><b>❌ WIDE</b>
+        <a  class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-10" onclick="wide()"><b>❌ WIDE</b>
         </a>
-        <a  class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-11"><b>⚽No ball</b>
+        <a  class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-11" onclick="noball()"><b>⚽No ball</b>
         </a>
-        <a  class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-12"><b>💹 Toggle Alert </b>
+        <a  class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-12" onclick="alerttog()"><b>💹 Toggle Alert </b>
         </a>
         <a  class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-13"><b>🔴 Toggle Scoreboard </b>
         </a>
-        <a  class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-14"><b>&nbsp;🏴TOGGLE FLAGS</b>
+        <a  class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-14" onclick="flagchange()"><b>&nbsp;🏴TOGGLE FLAGS</b>
         </a>
-        <a  class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-15"><b>⚠️ RESET DOTS</b>
+        <a  class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-15" onclick="clrdots()"><b>⚠️ RESET DOTS</b>
         </a>
         <h2 class="u-custom-font u-font-montserrat u-text u-text-default u-text-7"><b>Scores</b>
         </h2>
-        <h3 class="u-custom-font u-font-montserrat u-text u-text-default u-text-8"><b> Miscellaneous</b>
+        <h3 class="u-custom-font u-font-montserrat u-text u-text-default u-text-8"><b> Overs</b>
         </h3>
         <h3 class="u-custom-font u-font-montserrat u-text u-text-default u-text-9">Main Score</h3>
         <div class="u-form u-form-1">
@@ -129,31 +131,31 @@
           <form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 10px;">
             <div class="u-form-group u-form-group-4">
               <label for="text-2343" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Run Rate" id="text-2343" name="number-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+              <input type="number" placeholder="Ball" id="ballc" name="number-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
             </div>
-            <div class="u-align-left u-form-group u-form-submit">
-              <a href="#" class="u-btn u-btn-submit u-button-style u-palette-3-base">UPDATE RUN RATE</a>
+            <div class="u-align-right u-form-group u-form-submit"></form>
+              <a href="#" class="u-btn u-btn-submit u-button-style u-palette-3-base" onclick="updateball()">UPDATE BALL</a>
               <input type="submit" value="submit" class="u-form-control-hidden">
             </div>
             <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
             <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
             <input type="hidden" value="" name="recaptchaResponse">
-          </form>
+          
         </div>
         <div class="u-form u-form-3">
           <form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 10px;">
             <div class="u-form-group u-form-group-6">
-              <label for="text-2343" class="u-form-control-hidden u-label"></label>
-              <input type="text" placeholder="Over" id="text-2343" name="number-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
-            </div>
-            <div class="u-align-left u-form-group u-form-submit">
-              <a href="#" class="u-btn u-btn-submit u-button-style u-palette-3-base">UPDATE OVER</a>
+              <label for="overc" class="u-form-control-hidden u-label"></label>
+              <input type="number" placeholder="Over" id="overc" name="number-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+            </div>   </form>
+            <div class="u-align-right u-form-group u-form-submit">
+              <a href="#" class="u-btn u-btn-submit u-button-style u-palette-3-base" onclick="updateover()">UPDATE OVER</a>
               <input type="submit" value="submit" class="u-form-control-hidden">
             </div>
             <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
             <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
             <input type="hidden" value="" name="recaptchaResponse">
-          </form>
+       
         </div>
         <h2 class="u-custom-font u-font-montserrat u-text u-text-default u-text-10"><b>Players</b>
         </h2>
@@ -459,26 +461,26 @@
                 </select>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
               </div>
-            </div>
+            </div>  </form>
             <div class="u-align-left u-form-group u-form-submit">
-              <a href="#" class="u-btn u-btn-submit u-button-style u-palette-3-base">CLEAR ALL DOTS<br>
+              <a href="#" class="u-btn u-btn-submit u-button-style u-palette-3-base" onclick="clrdots()">CLEAR ALL DOTS<br>
               </a>
               <input type="submit" value="submit" class="u-form-control-hidden">
             </div>
             <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
             <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
             <input type="hidden" value="" name="recaptchaResponse">
-          </form>
+        
         </div>
-        <a href="https://nicepage.com/wysiwyg-html-editor" class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-22">UPDATE NO</a>
-        <a href="https://nicepage.com/wysiwyg-html-editor" class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-23">UPDATE 01</a>
-        <a href="https://nicepage.com/wysiwyg-html-editor" class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-24">UPDATE 02</a>
-        <a href="https://nicepage.com/wysiwyg-html-editor" class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-25">UPDATE 03</a>
-        <a href="https://nicepage.com/wysiwyg-html-editor" class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-26">UPDATE 04</a>
-        <a href="https://nicepage.com/wysiwyg-html-editor" class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-27">UPDATE 06</a>
-        <a href="https://nicepage.com/wysiwyg-html-editor" class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-28">UPDATE 05</a>
-        <a href="https://nicepage.com/wysiwyg-html-editor" class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-29">UPDATE 07</a>
-        <a href="https://nicepage.com/wysiwyg-html-editor" class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-30">UPDATE 08</a>
+        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-22">UPDATE NO</a>
+        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-23">UPDATE 01</a>
+        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-24">UPDATE 02</a>
+        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-25">UPDATE 03</a>
+        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-26">UPDATE 04</a>
+        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-27">UPDATE 06</a>
+        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-28">UPDATE 05</a>
+        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-29">UPDATE 07</a>
+        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-30">UPDATE 08</a>
         <h3 class="u-custom-font u-font-montserrat u-text u-text-default u-text-13"><b>Batsman Score</b>
         </h3>
         <div class="u-form u-form-7">
@@ -510,8 +512,49 @@
         </div>
       </div>
     </section>
+    <section class="u-align-center u-clearfix u-section-2" id="sec-df1e">
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <h3 class="u-custom-font u-font-montserrat u-text u-text-default u-text-1"><b>Notice Board</b>
+        </h3>
+        <a  class="u-border-2 u-border-palette-2-base u-btn u-btn-round u-button-style u-hover-palette-2-base u-none u-radius-6 u-text-body-color u-text-hover-white u-btn-1" onclick="shownote()" id="notebtn">SHOW</a>
+        <div class="u-form u-form-1">
+          <form action="#" method="POST" class="u-clearfix u-form-spacing-15 u-form-vertical u-inner-form" style="padding: 15px;" source="custom" name="form">
+            <div class="u-form-group u-form-name u-form-group-1">
+              <label for="tempnote" class="u-label">Enter the notice</label>
+              <input type="text" placeholder="Type the updates" id="tempnote" name="text" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" >
+            </div> </form>
+            <div class="u-align-left u-form-group u-form-submit u-form-group-2">
+             
+              <a href="#" class="u-btn u-btn-submit u-button-style" onclick="notice()">Submit</a>
+         
+            </div>
+            <div class="u-form-send-message u-form-send-success">Thank you! Your message has been sent.</div>
+            <div class="u-form-send-error u-form-send-message">Unable to send your message. Please fix errors then try again.</div>
+            <input type="hidden" value="" name="recaptchaResponse">
+         
+        </div>
+      </div>
+    </section>
     
-    
+    <style>
+      .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba(34, 34, 34, 0.447);
+        color: white;
+        text-align: center;
+      }
+      </style>
+      
+      <div class="footer">
+        <iframe id="myfooter" height="100"  title="Iframe Example" style="width:100%;"></iframe>
+      </div>
+<script>
+  document.getElementById("myfooter").src=window.location.origin;
+  $('myfooter').scrollTop(438)
+</script>
     <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-2eaf"><div class="u-clearfix u-sheet u-sheet-1">
         <p class="u-small-text u-text u-text-variant u-text-1">DEVELOPED BY WEB TEAM RAHULA</p>
       </div></footer>
