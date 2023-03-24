@@ -18,6 +18,7 @@ ball=0
 ocount=0
 bcount=0
 wideno=0
+smvis=0
 bowlerballs = 0
 bowlerrate = 0
 noticemsg = "none";
@@ -47,6 +48,11 @@ for (let i =1; i < 9; i++) {
   if(parseInt(array1["ball"+i])==0){
     $$('dot'+i).src= "images/0.png"
   }
+  
+  if(array1["ball"+i]=="w"){
+    $$('dot'+i).src= "images/w.png"
+  }
+
   if(wideno==1){
     $("#dot7").fadeIn();
   } else{
@@ -77,18 +83,7 @@ database.ref('scores/main/marks').on('value', snapshot => {
     mainmark = score;
     scorelabel.textContent = mainmark+"-"+mainouts;
     
-    var newb= parseInt(bcount)*2
-    if(newb==10){
-      newb=9
-    }
-    console.log(newb)
-    totover= ocount+"."+newb
-    brun = parseInt(mainmark)/parseInt(totover).toFixed(2)
-    if (brun=='Infinity'){
-      brun=0
-    }
-    $$("runrate").innerText = "RUN RATE "+ brun.toFixed(1) ;
-    $$('smallal').style.backgroundColor = "#1c1052";
+ calculate()
   });
 
   database.ref('scores/main/out').on('value', snapshot => {
@@ -252,8 +247,13 @@ if(parseInt(snapshot.val())==0){
 
   database.ref('notes/pop').on('value', snapshot => {
     if(snapshot.val()!="-"){
+      smvis=1
+      $('#runrate').fadeIn()
       $$('smallal').style.backgroundColor = "#f60c0c"
       $$('runrate').innerText = snapshot.val();
+      setTimeout(() => {
+        calculate()
+      }, 5000);
     }
 
     
@@ -266,9 +266,13 @@ if(parseInt(snapshot.val())==0){
   database.ref('notes/vis').on('value', snapshot => {
  
     if(snapshot.val()=="hide"){
-      $$('smallal').style.backgroundColor = "#1c1052"
+      smvis=0
+      $$('smallal').style.backgroundColor = "transparent"
       $("#runrate").fadeOut();
     } else{
+      smvis=1
+      $$('smallal').style.backgroundColor = "#1c1052"
+
       $("#smallal").fadeIn();
       $("#runrate").fadeIn();
     }
@@ -276,3 +280,19 @@ if(parseInt(snapshot.val())==0){
  
 })
 
+function calculate(){
+var domtext = ($$('ballno').innerText).toString()
+var tcom = domtext.split(".")
+rtoc = tcom[0]
+rtbc = tcom[1]
+newdec = (parseFloat(rtbc)*1.666).toString().replace('.',"")
+devider = rtoc.toString()+"."+newdec
+brun = parseFloat(mainmark)/parseFloat(devider).toFixed(5)
+console.log(rtoc,brun)
+if(smvis==1){
+  $("#runrate").fadeIn();
+
+ $$("runrate").innerText = "RUN RATE "+ ((brun.toFixed(2)).replace("Infinity","0.00")).replace("NaN","0.00") ;
+ $$('smallal').style.backgroundColor = "#1c1052";
+}
+}

@@ -103,6 +103,10 @@
         </a>
         <a  class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-15" onclick="clrdots()"><b>⚠️ RESET DOTS</b>
         </a>
+        <a  class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-16" onclick="batreset()"><b>⛏️ RESET ALL BATSMAN SCORES</b>
+        </a>
+        <a class="u-border-none u-btn u-btn-round u-button-style u-hover-custom-color-2 u-palette-3-dark-3 u-radius-50 u-btn-17"  onclick="ballreset()"><b>⚒️ RESET ALL BOWLER SCORES</b>
+        </a>
         <h2 class="u-custom-font u-font-montserrat u-text u-text-default u-text-7"><b>Scores</b>
         </h2>
         <h3 class="u-custom-font u-font-montserrat u-text u-text-default u-text-8"><b> Overs</b>
@@ -291,7 +295,7 @@
         </div>
         <div class="u-form u-form-6">
           <form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 10px;">
-            <div class="u-form-group u-form-select u-form-group-15">
+            <div class="u-form-group u-form-select u-form-group-15" style="display: none;">
               <label for="select-54a6" class="u-label">Number of Dots</label>
               <div class="u-form-select-wrapper">
                 <select id="select-54a6" name="select" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
@@ -305,7 +309,7 @@
             <div class="u-form-group u-form-select u-form-group-16">
               <label for="select-a124" class="u-label">Dot 01</label>
               <div class="u-form-select-wrapper">
-                <select id="select-a124" name="select-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                <select id="dot1" name="select-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                   <option value="0">0</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -316,16 +320,16 @@
                   <option value="Wide">Wide</option>
                   <option value="Wicket">Wicket</option>
                   <option value="No Ball">No Ball</option>
-                  <option value="Byes">Byes</option>
-                  <option value="Leg Byes">Leg Byes</option>
+<option value="Empty">Empty</option>
+                 
                 </select>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
               </div>
             </div>
             <div class="u-form-group u-form-select u-form-group-17">
-              <label for="select-0c81" class="u-label">Dot 02</label>
+              <label for="select-0c81" class="u-label" >Dot 02</label>
               <div class="u-form-select-wrapper">
-                <select id="select-0c81" name="select-2" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                <select id="dot2" name="select-2" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                   <option value="0">0</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -336,8 +340,8 @@
                   <option value="Wide">Wide</option>
                   <option value="Wicket">Wicket</option>
                   <option value="No Ball">No Ball</option>
-                  <option value="Byes">Byes</option>
-                  <option value="Leg Byes">Leg Byes</option>
+<option value="Empty">Empty</option>
+                 
                 </select>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
               </div>
@@ -345,7 +349,7 @@
             <div class="u-form-group u-form-select u-form-group-18">
               <label for="select-aca5" class="u-label">Dot 03</label>
               <div class="u-form-select-wrapper">
-                <select id="select-aca5" name="select-3" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                <select id="dot3" name="select-3" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                   <option value="0">0</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -356,8 +360,8 @@
                   <option value="Wide">Wide</option>
                   <option value="Wicket">Wicket</option>
                   <option value="No Ball">No Ball</option>
-                  <option value="Byes">Byes</option>
-                  <option value="Leg Byes">Leg Byes</option>
+<option value="Empty">Empty</option>
+                 
                 </select>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
               </div>
@@ -365,7 +369,7 @@
             <div class="u-form-group u-form-select u-form-group-19">
               <label for="select-61a3" class="u-label">Dot 04</label>
               <div class="u-form-select-wrapper">
-                <select id="select-61a3" name="select-4" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                <select id="dot4" name="select-4" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                   <option value="0">0</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -376,16 +380,16 @@
                   <option value="Wide">Wide</option>
                   <option value="Wicket">Wicket</option>
                   <option value="No Ball">No Ball</option>
-                  <option value="Byes">Byes</option>
-                  <option value="Leg Byes">Leg Byes</option>
+<option value="Empty">Empty</option>
+                 
                 </select>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
               </div>
             </div>
             <div class="u-form-group u-form-select u-form-group-20">
-              <label for="select-1497" class="u-label">Dot 05</label>
+              <label for="select-1497" class="u-label" >Dot 05</label>
               <div class="u-form-select-wrapper">
-                <select id="select-1497" name="select-5" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                <select id="dot5" name="select-5" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                   <option value="0">0</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -396,16 +400,16 @@
                   <option value="Wide">Wide</option>
                   <option value="Wicket">Wicket</option>
                   <option value="No Ball">No Ball</option>
-                  <option value="Byes">Byes</option>
-                  <option value="Leg Byes">Leg Byes</option>
+<option value="Empty">Empty</option>
+                 
                 </select>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
               </div>
             </div>
             <div class="u-form-group u-form-select u-form-group-21">
-              <label for="select-4133" class="u-label">Dot 06</label>
+              <label for="select-4133" class="u-label" >Dot 06</label>
               <div class="u-form-select-wrapper">
-                <select id="select-4133" name="select-6" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                <select id="dot6" name="select-6" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                   <option value="0">0</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -416,16 +420,16 @@
                   <option value="Wide">Wide</option>
                   <option value="Wicket">Wicket</option>
                   <option value="No Ball">No Ball</option>
-                  <option value="Byes">Byes</option>
-                  <option value="Leg Byes">Leg Byes</option>
+<option value="Empty">Empty</option>
+                 
                 </select>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
               </div>
             </div>
             <div class="u-form-group u-form-select u-form-group-22">
-              <label for="select-2ca1" class="u-label">Dot 07</label>
+              <label for="select-2ca1" class="u-label" >Dot 07</label>
               <div class="u-form-select-wrapper">
-                <select id="select-2ca1" name="select-7" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                <select id="dot7" name="select-7" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                   <option value="0">0</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -436,8 +440,8 @@
                   <option value="Wide">Wide</option>
                   <option value="Wicket">Wicket</option>
                   <option value="No Ball">No Ball</option>
-                  <option value="Byes">Byes</option>
-                  <option value="Leg Byes">Leg Byes</option>
+<option value="Empty">Empty</option>
+                 
                 </select>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
               </div>
@@ -445,7 +449,7 @@
             <div class="u-form-group u-form-select u-form-group-23">
               <label for="select-f5e1" class="u-label">Dot 8</label>
               <div class="u-form-select-wrapper">
-                <select id="select-f5e1" name="select-8" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                <select id="dot8" name="select-8" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                   <option value="0">0</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -456,14 +460,14 @@
                   <option value="Wide">Wide</option>
                   <option value="Wicket">Wicket</option>
                   <option value="No Ball">No Ball</option>
-                  <option value="Byes">Byes</option>
-                  <option value="Leg Byes">Leg Byes</option>
+<option value="Empty">Empty</option>
+                 
                 </select>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
               </div>
             </div>  </form>
             <div class="u-align-left u-form-group u-form-submit">
-              <a href="#" class="u-btn u-btn-submit u-button-style u-palette-3-base" onclick="clrdots()">CLEAR ALL DOTS<br>
+              <a href="#" class="u-btn u-btn-submit u-button-style u-palette-3-base" onclick="dotupdate()">UPDATE DOTS<br>
               </a>
               <input type="submit" value="submit" class="u-form-control-hidden">
             </div>
@@ -472,15 +476,7 @@
             <input type="hidden" value="" name="recaptchaResponse">
         
         </div>
-        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-22">UPDATE NO</a>
-        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-23">UPDATE 01</a>
-        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-24">UPDATE 02</a>
-        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-25">UPDATE 03</a>
-        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-26">UPDATE 04</a>
-        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-27">UPDATE 06</a>
-        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-28">UPDATE 05</a>
-        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-29">UPDATE 07</a>
-        <a  class="u-btn u-button-style u-custom-item u-palette-4-dark-2 u-btn-30">UPDATE 08</a>
+
         <h3 class="u-custom-font u-font-montserrat u-text u-text-default u-text-13"><b>Batsman Score</b>
         </h3>
         <div class="u-form u-form-7">

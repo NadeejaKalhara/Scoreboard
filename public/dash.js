@@ -328,7 +328,7 @@ function updateball(){
         }).then(
             Toast.fire({
                 icon: 'success',
-                title: 'Updated Balss'
+                title: 'Updated Ball count'
               }) 
         )
         ball = parseInt($$('ballc').value)
@@ -459,3 +459,185 @@ database.ref('player/bat2/name').on('value', snapshot => {
  })
 
 
+ function wicket(){
+    database.ref('notes/').update({
+        pop:"WICKET"
+    })
+    database.ref('notes/').update({
+        pop:"-"
+    })
+
+    if(ball<(limit)){
+    
+        ball=ball+1;
+        database.ref('overs/').update({
+            ball:ball
+        })
+        $$('ballno').innerText = "Ball No: "+ ball
+        console.log(ball+"ball")
+        database.ref('scores/main/out').transaction(out =>parseInt(out)+1)
+        database.ref('scores/last/marks').update(JSON.parse('{"ball'+ball+'":"w"}'))
+   
+    } else{
+        for (let i = 0; i < 9; i++) {
+            console.log(i+"ay")
+            database.ref('scores/last/marks').update(JSON.parse('{"ball'+i+'":"non"}')).then(
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Next Over'
+                  }) 
+            )
+            
+        }
+        //next over
+        over= over+1
+        limit=6
+        database.ref('overs/').update({
+            count:over
+        })
+
+
+        $$('ballno').innerText = "Ball No: 1"
+
+        ball=1
+        database.ref('overs/').update({
+            ball:ball
+        })
+        database.ref('scores/main/out').transaction(out =>parseInt(out)+1)
+        database.ref('scores/last/marks').update(JSON.parse('{"ball'+ball+'":"w"}'))
+
+    }
+ }
+
+ function batreset(){
+    Swal.fire({
+        title: 'Enter reset password',
+        input: 'password',
+        inputLabel: 'Password',
+        inputPlaceholder: 'Enter your password',
+        inputAttributes: {
+          maxlength: 10,
+          autocapitalize: 'off',
+          autocorrect: 'off'
+        }
+      }).then(pass => {
+if(pass.value=="1717"){
+    database.ref('bats').set({}).then(
+        Toast.fire({
+            icon: 'success',
+            title: 'Reset batsman scores successfully'
+          })
+    )
+} else{
+    Toast.fire({
+        icon: 'error',
+        title: 'Incorrect Password'
+      })
+}
+      })
+ 
+ }
+
+ function ballreset(){
+    Swal.fire({
+        title: 'Enter reset password',
+        input: 'password',
+        inputLabel: 'Password',
+        inputPlaceholder: 'Enter your password',
+        inputAttributes: {
+          maxlength: 10,
+          autocapitalize: 'off',
+          autocorrect: 'off'
+        }
+      }).then(pass => {
+if(pass.value=="1717"){
+    database.ref('balls').set({}).then(
+        Toast.fire({
+            icon: 'success',
+            title: 'Reset bowler scores successfully'
+          })
+    )
+} else{
+    Toast.fire({
+        icon: 'error',
+        title: 'Incorrect Password'
+      })
+}
+      })
+ 
+ }
+ database.ref('overs/count').on('value', snapshot => {
+    $$('overc').value = snapshot.val();
+
+  });
+
+  database.ref('overs/ball').on('value', snapshot => {
+
+   $$('ballc').value = snapshot.val();
+
+   });
+
+
+function dotpush(){
+    database.ref('scores/last/marks').on('value', snapshot => {
+        array1 = snapshot.val()
+        
+        for (let i =1; i < 9; i++) {
+            if(parseInt(array1["ball"+i])==0){
+                $$('dot'+i).value= "0"
+              }
+              if(array1["ball"+i]=="w"){
+                $$('dot'+i).value= "Wicket"
+              }
+              if(array1["ball"+i]=="nb"){
+                $$('dot'+i).value= "No Ball"
+            
+              }
+              if(array1["ball"+i]=="wd"){
+                $$('dot'+i).value= "Wide"
+            
+                        }
+              if(array1["ball"+i]=='non'){
+                $$('dot'+i).value= "Empty"
+              } else{
+                if(parseInt(array1["ball"+i])){
+                  $$('dot'+i).value= parseInt(array1["ball"+i])
+                }
+              }
+
+
+
+        }})
+}
+dotpush()
+
+
+function dotupdate(){
+ 
+
+    for (let i =1; i < 9; i++) {
+        if(isNaN(($$('dot'+i).value))){
+        if($$('dot'+i).value=="Wide"){
+            datan="wd"
+        }
+        if($$('dot'+i).value=="Wicket"){
+            datan="w"
+        }
+        if($$('dot'+i).value=="No Ball"){
+            datan="nb"
+        }
+        if($$('dot'+i).value=="Empty"){
+            datan="non"
+        }} else{
+            datan=$$('dot'+i).value
+        }
+
+        database.ref('scores/last/marks').update(JSON.parse('{"ball'+i+'":"'+datan+'"}')).then(
+            Toast.fire({
+                icon: 'success',
+                title: 'Updated dots successfully'
+              }) 
+        )
+    }
+
+}
