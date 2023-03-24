@@ -135,7 +135,9 @@ database.ref('scores/main/marks').on('value', snapshot => {
     }
 
     function quickm(b){
-
+if(parseInt(b)==1||parseInt(b)==3){
+    togglebat()
+}
         
         database.ref('balls/'+bowler+'/balls').once('value', snapshot => {
             if(snapshot.val()==null){
@@ -196,8 +198,9 @@ database.ref('scores/main/marks').on('value', snapshot => {
                     icon: 'success',
                     title: 'Next Over'
                   }) 
+                  
             )
-            
+            togglebat()
         }
         //next over
         over= over+1
@@ -487,7 +490,7 @@ database.ref('player/bat2/name').on('value', snapshot => {
                     title: 'Next Over'
                   }) 
             )
-            
+            togglebat()
         }
         //next over
         over= over+1
@@ -640,4 +643,8 @@ function dotupdate(){
         )
     }
 
+}
+
+function togglearrau(){
+    
 }
