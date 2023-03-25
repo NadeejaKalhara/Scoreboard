@@ -1,6 +1,7 @@
 var $$ = function( id ) { return document.getElementById( id ); };
 //variables
 toggleb = 1
+dotlist=1
 mainmark = 0
 mainouts = 0
 noteon = 0
@@ -132,13 +133,22 @@ database.ref('scores/main/marks').on('value', snapshot => {
             
         }   
         ball = 0
+        dotlist = 0
+        database.ref('dotlist').update({
+            count:dotlist
+                   })
+    
     }
 
     function quickm(b){
 if(parseInt(b)==1||parseInt(b)==3){
     togglebat()
+
 }
-        
+dotlist = dotlist+1
+database.ref('dotlist').update({
+ count:dotlist
+        })
         database.ref('balls/'+bowler+'/balls').once('value', snapshot => {
             if(snapshot.val()==null){
                 bowlerballs = 0
@@ -180,7 +190,7 @@ if(parseInt(b)==1||parseInt(b)==3){
             }
         }
     
-      if(ball<(limit)){
+      if(ball<(6)){
 
         ball=ball+1;
         database.ref('overs/').update({
@@ -189,7 +199,7 @@ if(parseInt(b)==1||parseInt(b)==3){
         $$('ballno').innerText = "Ball No: "+ ball
         console.log(ball+"ball")
 
-        database.ref('scores/last/marks').update(JSON.parse('{"ball'+ball+'":"'+b+'"}'))
+        database.ref('scores/last/marks').update(JSON.parse('{"ball'+dotlist+'":"'+b+'"}'))
     } else{
         for (let i = 0; i < 9; i++) {
             console.log(i+"ay")
@@ -205,6 +215,9 @@ if(parseInt(b)==1||parseInt(b)==3){
         //next over
         over= over+1
         limit=6
+        database.ref('limit').update({
+            count:limit
+                   })
         database.ref('overs/').update({
             count:over
         })
@@ -213,6 +226,10 @@ if(parseInt(b)==1||parseInt(b)==3){
         $$('ballno').innerText = "Ball No: 1"
 
         ball=1
+        dotlist=1
+        database.ref('dotlist').update({
+            count:dotlist
+                   })
         database.ref('overs/').update({
             ball:ball
         })
@@ -369,27 +386,35 @@ function wide (){
     function repwide(){
         if(ball<(limit)){
     
-            ball=ball+1;
-            database.ref('overs/').update({
-                ball:ball
-            })
-            $$('ballno').innerText = "Ball No: "+ ball
-            console.log(ball+"ball")
-    
-            database.ref('scores/last/marks').update(JSON.parse('{"ball'+ball+'":"wd"}'))
+            dotlist = dotlist+1
+            database.ref('dotlist').update({
+                count:dotlist
+                       })
+            database.ref('scores/last/marks').update(JSON.parse('{"ball'+dotlist+'":"wd"}'))
         database.ref('scores/main/marks').transaction(score =>parseInt(score)+1);
     
         }
     }
 if(limit==6){
     limit=7
+    database.ref('limit').update({
+        count:limit
+               })
     repwide()
 } else{
     if(limit==7){
         limit=8
+        database.ref('limit').update({
+            count:limit
+                   })
         repwide()
     }  else{
-        alert("Max 2 dots")
+    
+        Swal.fire(
+            'You can not add more balls',
+            'Max 2 extra dots can be added!',
+            'warning'
+          )
     }
    
 
@@ -400,28 +425,34 @@ if(limit==6){
 function noball (){
     function repwide(){
         if(ball<(limit)){
-    
-            ball=ball+1;
-            database.ref('overs/').update({
-                ball:ball
-            })
-            $$('ballno').innerText = "Ball No: "+ ball
-            console.log(ball+"ball")
-    
-            database.ref('scores/last/marks').update(JSON.parse('{"ball'+ball+'":"nb"}'))
+            dotlist =dotlist+1
+            database.ref('dotlist').update({
+                count:dotlist
+                       })
+            database.ref('scores/last/marks').update(JSON.parse('{"ball'+dotlist+'":"nb"}'))
         database.ref('scores/main/marks').transaction(score =>parseInt(score)+1);
     
         }
     }
 if(limit==6){
     limit=7
+    database.ref('limit').update({
+        count:limit
+               })
     repwide()
 } else{
     if(limit==7){
         limit=8
+        database.ref('limit').update({
+            count:limit
+                   })
         repwide()
     }  else{
-        alert("Max 2 dots")
+        Swal.fire(
+            'You can not add more balls',
+            'Max 2 extra dots can be added!',
+            'warning'
+          )
     }
    
 
@@ -470,16 +501,29 @@ database.ref('player/bat2/name').on('value', snapshot => {
         pop:"-"
     })
 
-    if(ball<(limit)){
+    if(ball<(6)){
     
         ball=ball+1;
+        dotlist = dotlist+1
+        database.ref('dotlist').update({
+            count:dotlist
+                   })
         database.ref('overs/').update({
             ball:ball
         })
         $$('ballno').innerText = "Ball No: "+ ball
         console.log(ball+"ball")
         database.ref('scores/main/out').transaction(out =>parseInt(out)+1)
-        database.ref('scores/last/marks').update(JSON.parse('{"ball'+ball+'":"w"}'))
+        database.ref('balls/'+bowler+'/outs').once('value', snapshot => {
+            if(snapshot.val()==null){
+                bowlerouts = 0
+            }else{
+                bowlerouts  = parseInt(snapshot.val())
+            }
+            database.ref('balls/'+bowler).update({
+                outs:bowlerouts+1
+            }); })
+        database.ref('scores/last/marks').update(JSON.parse('{"ball'+dotlist+'":"w"}'))
    
     } else{
         for (let i = 0; i < 9; i++) {
@@ -489,12 +533,17 @@ database.ref('player/bat2/name').on('value', snapshot => {
                     icon: 'success',
                     title: 'Next Over'
                   }) 
+                
             )
+            
             togglebat()
         }
         //next over
         over= over+1
         limit=6
+        database.ref('limit').update({
+            count:limit
+                   })
         database.ref('overs/').update({
             count:over
         })
@@ -503,11 +552,15 @@ database.ref('player/bat2/name').on('value', snapshot => {
         $$('ballno').innerText = "Ball No: 1"
 
         ball=1
+        dotlist=1
+        database.ref('dotlist').update({
+            count:dotlist
+                   })
         database.ref('overs/').update({
             ball:ball
         })
         database.ref('scores/main/out').transaction(out =>parseInt(out)+1)
-        database.ref('scores/last/marks').update(JSON.parse('{"ball'+ball+'":"w"}'))
+        database.ref('scores/last/marks').update(JSON.parse('{"ball'+dotlist+'":"w"}'))
 
     }
  }
@@ -648,3 +701,10 @@ function dotupdate(){
 function togglearrau(){
     
 }
+
+database.ref('dotlist/count').on('value', snapshot => {
+    dotlist = parseInt(snapshot.val())
+  });
+  database.ref('limit/count').on('value', snapshot => {
+    limit = parseInt(snapshot.val())
+  });

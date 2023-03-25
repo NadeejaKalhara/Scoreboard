@@ -152,7 +152,7 @@ database.ref('scores/main/marks').on('value', snapshot => {
 
           }
             })
-            database.ref('balls/'+bowlernm+"/balls").on('value', snapshot => {
+            database.ref('balls/'+bowlernm+"/outs").on('value', snapshot => {
               if(snapshot.val()!=null){
                 bowlerballs = parseInt( snapshot.val())
     $$('bowlerrate').innerText = bowlerrate + "-"+bowlerballs;
