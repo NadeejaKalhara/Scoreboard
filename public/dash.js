@@ -569,6 +569,15 @@ database.ref('player/bat2/name').on('value', snapshot => {
         })
         database.ref('scores/main/out').transaction(out =>parseInt(out)+1)
         database.ref('scores/last/marks').update(JSON.parse('{"ball'+dotlist+'":"w"}'))
+        database.ref('balls/'+bowler+'/outs').once('value', snapshot => {
+            if(snapshot.val()==null){
+                bowlerouts = 0
+            }else{
+                bowlerouts  = parseInt(snapshot.val())
+            }
+            database.ref('balls/'+bowler).update({
+                outs:bowlerouts+1
+            }); })
 
     }
  }
