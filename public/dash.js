@@ -501,6 +501,27 @@ database.ref('player/bat2/name').on('value', snapshot => {
 
 
  function wicket(){
+    database.ref('bats/'+batter1+'/balls').once('value', snapshot => {
+        if(snapshot.val()==null){
+            bat1balls = 0
+        }else{
+            bat1balls  = parseInt(snapshot.val())
+        }
+        database.ref('bats/'+batter1).update({
+            balls:bat1balls+1
+        }); })
+        
+    database.ref('balls/'+bowler+'/balls').once('value', snapshot => {
+        if(snapshot.val()==null){
+            bowlerballs = 0
+        }else{
+            bowlerballs  = parseInt(snapshot.val())
+        }
+        database.ref('balls/'+bowler).update({
+            balls:bowlerballs+1
+        }); })
+
+
     database.ref('notes/').update({
         pop:"WICKET"
     })
