@@ -122,7 +122,7 @@ database.ref('scores/main/marks').on('value', snapshot => {
     scorelabel.textContent = mainmark+"-"+mainouts;  });
 
     function clrdots() {
-        for (let i = 0; i < 9; i++) {
+        for (let i = 0; i < 10; i++) {
             console.log(i+"ay")
             database.ref('scores/last/marks').update(JSON.parse('{"ball'+i+'":"non"}')).then(
                 Toast.fire({
@@ -201,7 +201,7 @@ database.ref('dotlist').update({
 
         database.ref('scores/last/marks').update(JSON.parse('{"ball'+dotlist+'":"'+b+'"}'))
     } else{
-        for (let i = 0; i < 9; i++) {
+        for (let i = 0; i < 10; i++) {
             console.log(i+"ay")
             database.ref('scores/last/marks').update(JSON.parse('{"ball'+i+'":"non"}')).then(
                 Toast.fire({
@@ -210,8 +210,9 @@ database.ref('dotlist').update({
                   }) 
                   
             )
-            togglebat()
+         
         }
+        togglebat()
         //next over
         over= over+1
         limit=6
@@ -409,12 +410,18 @@ if(limit==6){
                    })
         repwide()
     }  else{
-    
+        if(limit==8){
+            limit=9
+            database.ref('limit').update({
+                count:limit
+                       })
+            repwide()
+        }  else{
         Swal.fire(
             'You can not add more balls',
-            'Max 2 extra dots can be added!',
+            'Max 3 extra dots can be added!',
             'warning'
-          )
+          )}
     }
    
 
@@ -450,7 +457,7 @@ if(limit==6){
     }  else{
         Swal.fire(
             'You can not add more balls',
-            'Max 2 extra dots can be added!',
+            'Max 3 extra dots can be added!',
             'warning'
           )
     }
@@ -536,8 +543,9 @@ database.ref('player/bat2/name').on('value', snapshot => {
                 
             )
             
-            togglebat()
+      
         }
+        togglebat()
         //next over
         over= over+1
         limit=6
@@ -671,7 +679,7 @@ dotpush()
 function dotupdate(){
  
 
-    for (let i =1; i < 9; i++) {
+    for (let i =1; i < 10; i++) {
         if(isNaN(($$('dot'+i).value))){
         if($$('dot'+i).value=="Wide"){
             datan="wd"

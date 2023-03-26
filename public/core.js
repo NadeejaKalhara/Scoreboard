@@ -35,7 +35,7 @@ database.ref('scores/last/marks').on('value', snapshot => {
 array1 = snapshot.val()
 console.log(snapshot.val())
 
-for (let i =1; i < 9; i++) {
+for (let i =1; i < 10; i++) {
 
   if(array1["ball"+i]=="wd"){
     $$('dot'+i).src= "images/wd.png"
@@ -59,8 +59,14 @@ for (let i =1; i < 9; i++) {
     if(wideno==2){
     $("#dot7").fadeIn();
     $("#dot8").fadeIn();} else{
+      if(wideno==3){
+        $("#dot7").fadeIn();
+        $("#dot8").fadeIn();
+        $("#dot9").fadeIn();
+      } else{
       $("#dot7").fadeOut();
       $("#dot8").fadeOut();
+      $("#dot9").fadeOut();}
     }
   }
   if(array1["ball"+i]=='non'){
@@ -70,7 +76,7 @@ for (let i =1; i < 9; i++) {
       $$('dot'+i).src= "images/"+parseInt(array1["ball"+i])+".png"
     }
   }
-  if(i==8){
+  if(i==9){
     wideno=0
   }
 }
@@ -163,6 +169,18 @@ database.ref('scores/main/marks').on('value', snapshot => {
               }
           
              });
+             database.ref('balls/'+bowlernm+"/balls").on('value', snapshot => {
+              if(snapshot.val()!=null){
+                bowlerovers = parseInt( snapshot.val())
+    $$('bowlerovers').innerText = parseInt(parseInt(bowlerovers)/6) + "."+parseInt(bowlerovers)%6;
+
+              } else{
+                bowlerovers = 0
+    $$('bowlerovers').innerText = 0 + "."+0;
+              }
+          
+             });
+
       });
       database.ref('stats/arrow').on('value', snapshot => {
         var arrn = snapshot.val()
@@ -220,19 +238,28 @@ if(parseInt(snapshot.val())==0){
 
   database.ref('overs/count').on('value', snapshot => {
     ocount = snapshot.val();
-   $$('ballno').innerText = ocount+"."+bcount
+    if(parseInt(bcount)==6){
+      $$('ballno').innerText = parseInt(ocount)+1+"."+0
+    } else{
+      $$('ballno').innerText = ocount+"."+bcount
+    }
+ 
   });
 
   database.ref('overs/ball').on('value', snapshot => {
-    if( $$("dot7").style.display=="none"&& $$("dot8").style.display=="none"){
+    if( $$("dot7").style.display=="none"&& $$("dot8").style.display=="none"&&$$("dot9").style.display=="none"){
       thislimit = 6
     } else{
-      if( $$("dot7").style.display!="none"&& $$("dot8").style.display=="none"){
+      if( $$("dot7").style.display!="none"&& $$("dot8").style.display=="none"&&$$("dot9").style.display=="none"){
         thislimit = 7
       }  else{
-        if( $$("dot7").style.display!="none"&& $$("dot8").style.display!="none"){
+        if( $$("dot7").style.display!="none"&& $$("dot8").style.display!="none"&&$$("dot9").style.display=="none"){
           thislimit = 8
-        } 
+        }  else{
+          if( $$("dot7").style.display!="none"&& $$("dot8").style.display!="none"&&$$("dot9").style.display!="none"){
+            thislimit = 9
+          } 
+        }
       }
     }
     bcount = snapshot.val();
@@ -242,7 +269,11 @@ if(parseInt(snapshot.val())==0){
       $("#dot7").fadeOut();
       $("#dot8").fadeOut();
     }
-   $$('ballno').innerText = parseInt(ocount)+"."+parseInt(bcount)
+    if(parseInt(bcount)==6){
+      $$('ballno').innerText = parseInt(ocount)+1+"."+0
+    } else{
+      $$('ballno').innerText = ocount+"."+bcount
+    }
   });
 
   database.ref('notes/pop').on('value', snapshot => {
