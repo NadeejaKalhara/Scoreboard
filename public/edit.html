@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Player Information</title>
+  <!-- Add Firebase SDK -->
+    <!-- Add Firebase SDK -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.2.8/firebase-app.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.2.8/firebase-auth.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.2.8/firebase-database.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" crossorigin="anonymous"  referrerpolicy="no-referrer"></script>
+  <script>
+    // Initialize Firebase
+    const firebaseConfig = {
+    apiKey: "AIzaSyCcLv7qUiraxWQZAs2jqrzCtnjDneaG0zI",
+    authDomain: "wontec-bc185.firebaseapp.com",
+    databaseURL: "https://wontec-bc185-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "wontec-bc185",
+    storageBucket: "wontec-bc185.appspot.com",
+    messagingSenderId: "1080716032663",
+    appId: "1:1080716032663:web:5e454ec353a7495fa547d2"
+  };
+firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the database service
+    const database = firebase.database();
+
+    // Define a function to get the player data from the Firebase Realtime Database
+    function getPlayerData(teamName) {
+      const teamRef = database.ref(teamName);
+      teamRef.on('value', (snapshot) => {
+        const playerList = snapshot.val();
+        if (playerList) {
+          const tableBody = document.getElementById(`${teamName}-players`);
+          // Clear the existing rows from the table
+          while (tableBody.firstChild) {
+            tableBody.removeChild(tableBody.firstChild);
+          }
+          // Add a new row for each player in the playerList object
+          Object.keys(playerList).forEach((playerId) => {
+            const player = playerList[playerId];
+            const row = tableBody.insertRow();
+            row.setAttribute('data-id', playerId);
+            row.insertCell().textContent = player.firstName;
+            row.insertCell().textContent = player.fullName;
+            row.insertCell().textContent = player.role;
+            row.insertCell().textContent = player.hundreds;
+            row.insertCell().textContent = player.fifties;
+            row.insertCell().textContent = player.best;
+            row.insertCell().textContent = player.runs;
+            row.insertCell().textContent = player.average;
+            // Add an Edit button to each row
+            const editCell = row.insertCell();
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.addEventListener('click', () => {
+              editPlayer(teamName, playerId);
+            });
+            editCell.appendChild(editButton);
+          });
+        }
+      });
+    }
+
+    // Define a function to display the player data for the Rahula College Team
+    function showRahulaPlayers() {
+      getPlayerData('rahula-college-team');
+    }
+
+    // Define a function to display the player data for the Dharmaraja College Team
+    function showDharmarajaPlayers() {
+      getPlayerData('dharmaraja-college-team');
+    }
+
+    // Define a function to edit the data for a specific player
+    function editPlayer(teamName, playerId) {
+      // Get the data for the selected player
+      const playerRef = database.ref(`${teamName}/${playerId}`);
+      playerRef.once('value', (snapshot) => {
+        const playerData = snapshot.val();
+        if (playerData) {
+          // Create a form to edit the player data
+          const form = document.createElement('form');
+          const firstNameInput = createInputField('First Name:', 'firstName', playerData.firstName);
+          form.appendChild(firstNameInput);
+          const fullNameInput = createInputField('Full Name:', 'fullName', playerData.fullName);
+          form.appendChild(fullNameInput);
+          const roleInput = createInputField('Role:', 'role', playerData.role);
+          form.appendChild(roleInput);
+          const hundredsInput = createInputField('100s:', 'hundreds', playerData.hundreds);
+          form.appendChild(hundredsInput);
+        }})}

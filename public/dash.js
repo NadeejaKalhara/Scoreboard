@@ -10,6 +10,8 @@ over=0
 ball=0
 limit=6
 alertl=0
+x1="0"
+x2="0"
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -353,6 +355,7 @@ function updateball(){
               }) 
         )
         ball = parseInt($$('ballc').value)
+        dotlist=ball
     } else{
         Toast.fire({
             icon: 'error',
@@ -455,11 +458,18 @@ if(limit==6){
                    })
         repwide()
     }  else{
+        if(limit==8){
+            limit=9
+            database.ref('limit').update({
+                count:limit
+                       })
+            repwide()
+        }  else{
         Swal.fire(
             'You can not add more balls',
             'Max 3 extra dots can be added!',
             'warning'
-          )
+          )}
     }
    
 
@@ -481,36 +491,36 @@ if(alertl==0){
 }
 }
 
-database.ref('player/bat1/name').on('value', snapshot => {
-     batter1 = snapshot.val();
-     $$('player1choose').value = snapshot.val()
-  })
+
 
   
-database.ref('player/bat2/name').on('value', snapshot => {
-    batter2 = snapshot.val();
-    $$('player2choose').value = snapshot.val()
 
- })
-
- database.ref('player/bow/name').on('value', snapshot => {
-    bowler = snapshot.val();
-    $$('bowchoose').value = snapshot.val()
-
- })
 
 
  function wicket(){
-    database.ref('bats/'+batter1+'/balls').once('value', snapshot => {
-        if(snapshot.val()==null){
-            bat1balls = 0
-        }else{
-            bat1balls  = parseInt(snapshot.val())
-        }
-        database.ref('bats/'+batter1).update({
-            balls:bat1balls+1
-        }); })
-        
+    if(nowbat==2){
+        database.ref('bats/'+batter1+'/balls').once('value', snapshot => {
+            if(snapshot.val()==null){
+                bat1balls = 0
+            }else{
+                bat1balls  = parseInt(snapshot.val())
+            }
+            database.ref('bats/'+batter1).update({
+                balls:bat1balls+1
+            }); })
+    } else{
+        database.ref('bats/'+batter2+'/balls').once('value', snapshot => {
+            if(snapshot.val()==null){
+                bat2balls = 0
+            }else{
+                bat2balls  = parseInt(snapshot.val())
+            }
+            database.ref('bats/'+batter2).update({
+                balls:bat2balls+1
+            }); })
+    }
+
+
     database.ref('balls/'+bowler+'/balls').once('value', snapshot => {
         if(snapshot.val()==null){
             bowlerballs = 0
@@ -601,6 +611,48 @@ database.ref('player/bat2/name').on('value', snapshot => {
             }); })
 
     }
+
+    if(parseInt(toggleb)==2){
+ nowbating = batter1
+    } else{
+        nowbating = batter2
+    }
+    Swal.fire({
+        title: 'Reason for the wicket?',
+        input: 'select',
+        inputOptions: {
+          'Out Reason': {
+            c: 'Catch',
+            runout: 'RUN OUT',
+            b: 'Others'
+          }
+        },
+        inputPlaceholder: 'Select a the out reason',
+        showCancelButton: false,
+        allowOutsideClick:false
+      }).then(rs=>{
+        $$('playercchoose').style.display = "block";
+        console.log(rs.value)
+        if(rs.value=="c"){
+            Swal.fire({
+                title: 'Select catcher',
+           
+              html:"<div>"+$$('playercchoose').outerHTML + "</div>"+ "<br> <button onclick='docatch()'>Submit</button>",
+                showCancelButton: false,
+                showConfirmButton:false,
+                allowOutsideClick:false
+                      
+              }).then(outp=>{
+       
+ 
+              }
+           
+
+              )
+        } else{
+            otherouts(rs.value)
+        }
+      })
  }
 
  function batreset(){
@@ -746,3 +798,134 @@ database.ref('dotlist/count').on('value', snapshot => {
   database.ref('limit/count').on('value', snapshot => {
     limit = parseInt(snapshot.val())
   });
+
+
+  database.ref('teamRC').once('value', snapshot => {
+rcarray = snapshot.val();
+console.log(rcarray)
+for (let i = 0; i < Object.keys(rcarray).length; i++) {
+    const e = Object.keys(rcarray)[i];
+    $("#playercchoose").append(new Option(e+ " - RCM", e));
+}
+for (let i = 0; i < Object.keys(rcarray).length; i++) {
+    const e = Object.keys(rcarray)[i];
+    $("#player1choose").append(new Option(e+ " - RCM", e));
+}
+for (let i = 0; i < Object.keys(rcarray).length; i++) {
+    const e = Object.keys(rcarray)[i];
+    $("#player2choose").append(new Option(e+ " - RCM", e));
+}
+for (let i = 0; i < Object.keys(rcarray).length; i++) {
+    const e = Object.keys(rcarray)[i];
+    $("#bowchoose").append(new Option(e+ " - RCM", e));
+}
+ }).then(
+    database.ref('teamPD').once('value', snapshot => {
+        rcarray = snapshot.val();
+        console.log(rcarray)
+        for (let i = 0; i < Object.keys(rcarray).length; i++) {
+            const e = Object.keys(rcarray)[i];
+            $("#player1choose").append(new Option(e+ " - PD", e));
+        }
+        for (let i = 0; i < Object.keys(rcarray).length; i++) {
+            const e = Object.keys(rcarray)[i];
+            $("#player2choose").append(new Option(e+ " - PD", e));
+        }
+        for (let i = 0; i < Object.keys(rcarray).length; i++) {
+            const e = Object.keys(rcarray)[i];
+            $("#bowchoose").append(new Option(e+ " - PD", e));
+        }
+        for (let i = 0; i < Object.keys(rcarray).length; i++) {
+            const e = Object.keys(rcarray)[i];
+            $("#playercchoose").append(new Option(e+ " - PD", e));
+        }
+         } 
+ )).then(
+ 
+    callpu()
+ )
+ function callpu(){
+    database.ref('player/bat1/name').on('value', snapshot => {
+        batter1 = snapshot.val();
+        $$('player1choose').value = snapshot.val()
+        
+     })
+    
+     database.ref('player/bat2/name').on('value', snapshot => {
+        batter2 = snapshot.val();
+        $$('player2choose').value = snapshot.val()
+    
+     })
+    
+     database.ref('player/bow/name').on('value', snapshot => {
+        bowler = snapshot.val();
+        $$('bowchoose').value = snapshot.val()
+    
+     })
+ }
+
+function docatch(){
+    $$('playercchoose').style.display = "none"
+
+    database.ref('bats/'+nowbating+'/score').once('value', snapshot => {
+        
+database.ref('bats/'+nowbating+'/balls').once('value', snapshot2 => {
+        database.ref('batout/'+nowbating).set({
+            why:"c",
+            bow:bowler,
+            who:document.getElementsByClassName("playercchoose")[1].value,
+            score:snapshot.val(),
+            balls:snapshot2.val()
+                            }).then(
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'Wicket Added'
+                                  }))})
+    })
+}
+
+function otherouts(typ){
+    if(typ=="runout"){
+        database.ref('bats/'+nowbating+'/score').once('value', snapshot => {
+        
+            database.ref('bats/'+nowbating+'/balls').once('value', snapshot2 => {
+                    database.ref('batout/'+nowbating).set({
+                        why:"RUN OUT",
+                        bow:bowler,
+                        score:snapshot.val(),
+                        balls:snapshot2.val()
+                                        }).then(
+                                            Toast.fire({
+                                                icon: 'success',
+                                                title: 'Wicket Added'
+                                              }))})
+                })
+    } else{
+        database.ref('bats/'+nowbating+'/score').once('value', snapshot => {
+        
+            database.ref('bats/'+nowbating+'/balls').once('value', snapshot2 => {
+                if(snapshot.val()==null){ x1="0" } else {  x1 = snapshot.val()}
+                if(snapshot2.val()==null){ x2="0" } else {  x2 = snapshot2.val()}
+                    database.ref('batout/'+nowbating).set({
+                        why:"b",
+                        bow:bowler,
+                        score:x1,
+                        balls:x2
+                                        }).then(
+                                            Toast.fire({
+                                                icon: 'success',
+                                                title: 'Wicket Added'
+                                              }))})
+                })
+
+    }
+}
+
+function resoutz(){
+    database.ref('batout').set({}).then(
+        Toast.fire({
+            icon: 'success',
+            title: 'Batsman Wickets cleared successfully'
+          })
+    )
+}
