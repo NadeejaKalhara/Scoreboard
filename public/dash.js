@@ -143,10 +143,7 @@ database.ref('scores/main/marks').on('value', snapshot => {
     }
 
     function quickm(b){
-if(parseInt(b)==1||parseInt(b)==3){
-    togglebat()
 
-}
 dotlist = dotlist+1
 database.ref('dotlist').update({
  count:dotlist
@@ -290,7 +287,10 @@ database.ref('dotlist').update({
         })
     }
    
+    if(parseInt(b)==1||parseInt(b)==3){
+        togglebat()
     
+    }
 
 }
 
