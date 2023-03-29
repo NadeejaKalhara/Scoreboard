@@ -211,7 +211,7 @@ database.ref('dotlist').update({
             )
          
         }
-        togglebat()
+    
         //next over
         over= over+1
         limit=6
@@ -261,7 +261,7 @@ database.ref('dotlist').update({
         })
 
   
-       
+        togglebat()
 
     } else{
         database.ref('bats/'+batter2+'/score').once('value', snapshot => {
@@ -576,7 +576,7 @@ if(alertl==0){
             
       
         }
-        togglebat()
+
         //next over
         over= over+1
         limit=6
@@ -609,6 +609,8 @@ if(alertl==0){
             database.ref('balls/'+bowler).update({
                 outs:bowlerouts+1
             }); })
+
+            togglebat()
 
     }
 
