@@ -15,6 +15,14 @@ const firebaseConfig = {
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
+    database.ref('nowbat/schl').on('value', snapshot => {
+        if(parseInt(snapshot.val())==1){
+            $$("schl").innerHTML="<b>"+"RAHULA COLLEGE MATARA"+"</br>"
+        } else{
+            $$("schl").innerHTML="<b>"+"DHARMAPALA COLLEGE PANNIPITIYA"+"</br>"
+        }
+    })
+
     database.ref('scores/main/marks').on('value', snapshot => {
         const score = snapshot.val();
         mainmark = score;
@@ -68,7 +76,7 @@ pushlen = Object.keys(array).length;
     $$('morem').innerHTML=parseInt(mainmark)-purem
 
     if( array[e]["why"]=="RUN OUT"){
-   $$('def'+(i+1)).innerText =  array[e]["bow"]
+   $$('def'+(i+1)).innerText =  array[e]["who"]
    $$('or'+(i+1)).innerHTML ="<b>RUN OUT</b>"
     
     } else{
@@ -77,9 +85,10 @@ pushlen = Object.keys(array).length;
             $$('or'+(i+1)).innerHTML ="<b>c</b>"
              
              } else{
+            
                 $$('def'+(i+1)).innerText =  array[e]["bow"]
                 $$('or'+(i+1)).innerHTML ="<b>b</b>"
-
+                     
              }
     }
  

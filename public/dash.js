@@ -635,7 +635,7 @@ if(alertl==0){
         console.log(rs.value)
         if(rs.value=="c"){
             Swal.fire({
-                title: 'Select catcher',
+                title: 'Select Taker',
            
               html:"<div>"+$$('playercchoose').outerHTML + "</div>"+ "<br> <button onclick='docatch()'>Submit</button>",
                 showCancelButton: false,
@@ -650,7 +650,27 @@ if(alertl==0){
 
               )
         } else{
-            otherouts(rs.value)
+            console.log(rs.value)
+            if(rs.value=="runout"){
+                Swal.fire({
+                    title: 'Select Taker',
+               
+                  html:"<div>"+$$('playercchoose').outerHTML + "</div>"+ "<br> <button onclick='dorunout()'>Submit</button>",
+                    showCancelButton: false,
+                    showConfirmButton:false,
+                    allowOutsideClick:false
+                          
+                  }).then(outp=>{
+           
+     
+                  }
+               
+    
+                  )
+            } else{
+                otherouts(rs.value)
+            }
+      
         }
       })
  }
@@ -883,7 +903,25 @@ database.ref('bats/'+nowbating+'/balls').once('value', snapshot2 => {
                                   }))})
     })
 }
+function dorunout(){
+    $$('playercchoose').style.display = "none"
 
+    database.ref('bats/'+nowbating+'/score').once('value', snapshot => {
+        
+database.ref('bats/'+nowbating+'/balls').once('value', snapshot2 => {
+        database.ref('batout/'+nowbating).set({
+            why:"RUN OUT",
+            bow:bowler,
+            who:document.getElementsByClassName("playercchoose")[1].value,
+            score:snapshot.val(),
+            balls:snapshot2.val()
+                            }).then(
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'Wicket Added'
+                                  }))})
+    })
+}
 function otherouts(typ){
     if(typ=="runout"){
         database.ref('bats/'+nowbating+'/score').once('value', snapshot => {
@@ -892,6 +930,7 @@ function otherouts(typ){
                     database.ref('batout/'+nowbating).set({
                         why:"RUN OUT",
                         bow:bowler,
+                        who:document.getElementsByClassName("playercchoose")[1].value,
                         score:snapshot.val(),
                         balls:snapshot2.val()
                                         }).then(

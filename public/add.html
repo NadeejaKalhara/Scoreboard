@@ -19,66 +19,80 @@ var $$ = function( id ) { return document.getElementById( id ); };
     <h2>Rahula College Team : Batsman</h2>
     <form onsubmit="addRahulaPlayer()" id="myform">
         <label for="firstName">First Name:</label>
-        <input type="text" id="firstNameR" name="firstName" required><br>
+        <input type="text" id="firstNameR" name="firstName" ><br>
 
         <label for="fullName">Full Name:</label>
-        <input type="text" id="fullNameR" name="fullName" required><br>
+        <input type="text" id="fullNameR" name="fullName" ><br>
 
         <label for="role">Role:</label>
-        <input type="text" id="roleR" name="role" required><br>
+        <input type="text" id="roleR" name="role" ><br>
 
-        <label for="hundreds">100s:</label>
-        <input type="number" id="hundredsR" name="hundreds" required><br>
+        <label for="matchess">Matches:</label>
+        <input type="number" id="matchessR" name="matchess" ><br>
 
-        <label for="fifties">50s:</label>
-        <input type="number" id="fiftiesR" name="fifties" required><br>
+        <label for="innings">innings:</label>
+        <input type="number" id="inningsR" name="innings" ><br>
 
         <label for="best">Best:</label>
-        <input type="text" id="bestR" name="best" required><br>
+        <input type="text" id="bestR" name="best" ><br>
 
         <label for="runs">Runs:</label>
-        <input type="number" id="runsR" name="runs" required><br>
+        <input type="number" id="runsR" name="runs" ><br>
 
         <label for="average">Average:</label>
-        <input type="number" step="0.01" id="averageR" name="average" required><br>
+        <input type="number" step="0.01" id="averageR" name="average" ><br>
+        <label for="linkR">Link:</label>
+        <input type="text"  id="linkR" name="average" ><br>
     </form>
         <button onclick="addr()">Add Player</button>
 
 
 <script>
 function addr(){
-    addRahulaPlayer($$("firstNameR").value,$$("fullNameR").value,$$("roleR").value,$$("hundredsR").value,$$("fiftiesR").value,$$("bestR").value,$$("runsR").value,$$("averageR").value)
+    addRahulaPlayer($$("firstNameR").value,$$("fullNameR").value,$$("roleR").value,$$("matchessR").value,$$("inningsR").value,$$("bestR").value,$$("runsR").value,$$("averageR").value)
+}
+
+function addp(){
+    addDharmarajaPlayer()
 }
     
     </script>
     <h2>Dharmaraja College Team</h2>
-    <form onsubmit="return addDharmarajaPlayer()">
+    <form onsubmit="return addDharmarajaPlayer()">  </form>
         <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" required><br>
+        <input type="text" id="firstName" name="firstName" ><br>
 
         <label for="fullName">Full Name:</label>
-        <input type="text" id="fullName" name="fullName" required><br>
+        <input type="text" id="fullName" name="fullName" ><br>
 
         <label for="role">Role:</label>
-        <input type="text" id="role" name="role" required><br>
+        <input type="text" id="role" name="role" ><br>
 
-        <label for="hundreds">100s:</label>
-        <input type="number" id="hundreds" name="hundreds" required><br>
+        <label for="matchess">Matches:</label>
+        <input type="number" id="matchess" name="matchess" ><br>
 
-        <label for="fifties">50s:</label>
-        <input type="number" id="fifties" name="fifties" required><br>
+        <label for="innings">innings:</label>
+        <input type="number" id="innings" name="innings" ><br>
 
-        <label for="best">Best:</label>
-        <input type="text" id="best" name="best" required><br>
+
 
         <label for="runs">Runs:</label>
-        <input type="number" id="runs" name="runs" required><br>
+        <input type="number" id="runs" name="runs" ><br>
 
         <label for="average">Average:</label>
-        <input type="number" step="0.01" id="average" name="average" required><br>
+        <input type="number" step="0.01" id="average" name="average" ><br>
+  
+        <label for="link">Link:</label>
+        <input type="text"  id="link" name="average" ><br>
 
-        <button type="submit">Add Player</button>
-    </form>
+        <label for="link">Wickets:</label>
+        <input type="text"  id="wick" name="average" ><br>
+
+        
+        <label for="link">Economy:</label>
+        <input type="text"  id="eco" name="average" ><br>
+        <button onclick="addp()">Add Player</button>
+
 </body>
 </html>
 
@@ -100,7 +114,7 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
 // Add a player to the Rahula College Team
-function addRahulaPlayer(firstName, fullName, role, hundreds, fifties, best, runs, average) {
+function addRahulaPlayer(firstName, fullName, role, matchess, innings, best, runs, average,link) {
     // Get a reference to the Rahula College Team
     var rahulaTeamRef = database.ref("teams/rahula/"+firstName);
 
@@ -109,30 +123,33 @@ function addRahulaPlayer(firstName, fullName, role, hundreds, fifties, best, run
         firstName: firstName,
         fullName: fullName,
         role: role,
-        hundreds: hundreds,
-        fifties: fifties,
+        matchess: matchess,
+        innings: innings,
         best: best,
         runs: runs,
-        average: average
+        average: average,
+        link:link
     });
 }
 
 // Add a player to the Dharmaraja College Team
-function addDharmarajaPlayer(firstName, fullName, role, hundreds, fifties, best, runs, average) {
+function addDharmarajaPlayer(firstName, fullName, role, matchess, innings, best, runs, average,link) {
     // Get a reference to the Dharmaraja College Team
-    var dharmarajaTeamRef = database.ref("teams/dharmaraja");
+database.ref("teamPD/"+($$("fullName").value).split(" ")[0]).set({
+        firstName: ($$("fullName").value).split(" ")[0],
+        fullName: $$("fullName").value,
+        role: $$("role").value,
+        matchess: $$("matchess").value,
+        innings: $$("innings").value,
+        runs: $$("runs").value,
+        average: $$("average").value,
+        link:$$("link").value,
+        wick:$$("wick").value,
+        eco:$$("eco").value
+    });
+};
 
     // Add the player to the team
-    dharmarajaTeamRef.push({
-        firstName: firstName,
-        fullName: fullName,
-        role: role,
-        hundreds: hundreds,
-        fifties: fifties,
-        best: best,
-        runs: runs,
-        average: average
-    });
-}
+
 
 </script>
