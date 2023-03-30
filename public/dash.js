@@ -968,3 +968,29 @@ function resoutz(){
           })
     )
 }
+
+function display(a){
+if(a=="bt1"){
+    database.ref('entry').set({
+man:batter1,
+schl:(($( "#player1choose option:selected" ).text()).split("-")[1]).trim(),
+bat:"yes"
+    })
+} else{
+    if(a=="bt2"){
+        database.ref('entry').set({
+    man:batter2,
+    schl:(($( "#player2choose option:selected" ).text()).split("-")[1]).trim(),
+bat:"yes"
+        })
+    }  else{
+        if(a=="bw"){
+            database.ref('entry').set({
+        man:bowler,
+        schl:(($( "#bowchoose option:selected" ).text()).split("-")[1]).trim(),
+bat:"no"
+            })
+        }   
+    }
+}
+}
