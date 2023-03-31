@@ -191,7 +191,7 @@ database.ref('dotlist').update({
     
       if(ball<(6)){
 
-        ball=ball+1;
+        ball=parseInt(ball)+1;
         database.ref('overs/').update({
             ball:ball
         })
@@ -213,7 +213,7 @@ database.ref('dotlist').update({
         }
  
         //next over
-        over= over+1
+        over= parseInt(over)+1
         limit=6
         database.ref('limit').update({
             count:limit
@@ -578,7 +578,7 @@ if(alertl==0){
         }
        
         //next over
-        over= over+1
+        over= parent(over)+1
         limit=6
         database.ref('limit').update({
             count:limit
