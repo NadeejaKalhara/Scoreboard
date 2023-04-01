@@ -147,6 +147,9 @@ database.ref('scores/main/marks').on('value', snapshot => {
     }
 
     function quickm(b){
+        fetch("https://backup2-7l9m.onrender.com/update")
+        .then((response) => response.json())
+        .then((data) => console.log(data));
 
 dotlist = dotlist+1
 database.ref('dotlist').update({
@@ -437,6 +440,9 @@ if(limit==6){
 }
 
 function noball (){
+    fetch("https://backup2-7l9m.onrender.com/update")
+    .then((response) => response.json())
+    .then((data) => console.log(data));
     function repwide(){
         if(ball<(limit)){
             dotlist =dotlist+1
@@ -502,6 +508,9 @@ if(alertl==0){
 
 
  function wicket(){
+    fetch("https://backup2-7l9m.onrender.com/update")
+    .then((response) => response.json())
+    .then((data) => console.log(data));
     if(nowbat==2){
         database.ref('bats/'+batter1+'/balls').once('value', snapshot => {
             if(snapshot.val()==null){
