@@ -1,5 +1,9 @@
 var $$ = function( id ) { return document.getElementById( id ); };
 //variables
+dataload = ""
+dataload2=""
+dataload1=""
+uc=0
 toggleb = 1
 dotlist=1
 mainmark = 0
@@ -994,3 +998,41 @@ bat:"no"
     }
 }
 }
+
+//ADDED CORDS
+
+database.ref('/').on('value', snapshot => {
+
+    if(uc==0){
+        uc==1
+        dataload1 = snapshot.val();
+        dataload=dataload2;
+    } else{
+        uc==0
+        dataload2 = snapshot.val();
+        dataload=dataload2;
+
+    }
+    if(dataload!=""&&dataload!=null){
+localStorage.setItem("un",JSON.stringify(dataload));} else{}
+  });
+
+
+
+  function undo(){
+    Swal.fire({
+        position: 'top-end',
+        icon: 'info',
+        title: 'Appologizing from the server! Please Wait Sudila.',
+        showConfirmButton: false,
+        timer: 1500
+      })
+
+    if(localStorage.getItem("un")!=null&&localStorage.getItem("un")!=''){
+    database.ref('/').set(JSON.parse(localStorage.getItem("un")))} else{
+        Toast.fire({
+            icon: 'error',
+            title: 'No Data records found!'
+          })
+    }
+  }
