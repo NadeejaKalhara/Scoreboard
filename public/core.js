@@ -219,22 +219,23 @@ if(parseInt(snapshot.val())==0){
 
 }
   });
+function schlload (){
   database.ref('nowbat/schl').on('value', snapshot => {
     notbatno = parseInt(snapshot.val())
     if(notbatno==1){
-      $$('nowplayingtext').innerText = "RC"
-      $$('image01').src = "images/ukraine-flag-png-xl.png";
-      $$('image02').src = "images/images.png";
+      $$('nowplayingtext').innerText = school1
+      $$('image01').src = "icons/"+school1+".png";
+      $$('image02').src = "icons/"+school2+".png";
     } else{
-      $$('nowplayingtext').innerText = "PD"
-      $$('image02').src = "images/ukraine-flag-png-xl.png";
-      $$('image01').src = "images/images.png";
-
+      $$('nowplayingtext').innerText = school2
+      $$('image01').src = "icons/"+school2+".png";
+      $$('image02').src = "icons/"+school1+".png";
     }
     
     ;
  
   });
+}
 
   database.ref('overs/count').on('value', snapshot => {
     ocount = snapshot.val();
@@ -327,3 +328,9 @@ if(smvis==1){
  $$('smallal').style.backgroundColor = "#1c1052";
 }
 }
+
+database.ref('couple').on('value', snapshot => {
+school1 = snapshot.val()["sc1"];
+school2 = snapshot.val()["sc2"];
+schlload()
+})

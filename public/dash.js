@@ -147,9 +147,7 @@ database.ref('scores/main/marks').on('value', snapshot => {
     }
 
     function quickm(b){
-        fetch("https://backup2-7l9m.onrender.com/update")
-        .then((response) => response.json())
-        .then((data) => console.log(data));
+       
 
 dotlist = dotlist+1
 database.ref('dotlist').update({
@@ -337,7 +335,7 @@ if (nowbat==2){
     }).then(
         Toast.fire({
             icon: 'success',
-            title: 'Rahula College is Batting Now'
+            title:  school1+' is Batting Now'
           }))
 } else{
     nowbat=2
@@ -346,7 +344,7 @@ if (nowbat==2){
     }).then(
         Toast.fire({
             icon: 'success',
-            title: 'Pannipitiya Dharmapala is Batting Now'
+            title:  school2+'  is Batting Now'
           }))
 }
 }
@@ -833,69 +831,77 @@ database.ref('dotlist/count').on('value', snapshot => {
   });
 
 
-  database.ref('teamRC').once('value', snapshot => {
-rcarray = snapshot.val();
-console.log(rcarray)
-for (let i = 0; i < Object.keys(rcarray).length; i++) {
-    const e = Object.keys(rcarray)[i];
-    $("#playercchoose").append(new Option(e+ " - RCM", e));
-}
-for (let i = 0; i < Object.keys(rcarray).length; i++) {
-    const e = Object.keys(rcarray)[i];
-    $("#player1choose").append(new Option(e+ " - RCM", e));
-}
-for (let i = 0; i < Object.keys(rcarray).length; i++) {
-    const e = Object.keys(rcarray)[i];
-    $("#player2choose").append(new Option(e+ " - RCM", e));
-}
-for (let i = 0; i < Object.keys(rcarray).length; i++) {
-    const e = Object.keys(rcarray)[i];
-    $("#bowchoose").append(new Option(e+ " - RCM", e));
-}
- }).then(
-    database.ref('teamPD').once('value', snapshot => {
+function loadplayers(){
+    database.ref('team'+school1).once('value', snapshot => {
         rcarray = snapshot.val();
+
+       if(rcarray!=null){
         console.log(rcarray)
         for (let i = 0; i < Object.keys(rcarray).length; i++) {
             const e = Object.keys(rcarray)[i];
-            $("#player1choose").append(new Option(e+ " - PD", e));
+            $("#playercchoose").append(new Option(e+ " - "+school1, e));
         }
         for (let i = 0; i < Object.keys(rcarray).length; i++) {
             const e = Object.keys(rcarray)[i];
-            $("#player2choose").append(new Option(e+ " - PD", e));
+            $("#player1choose").append(new Option(e+ " - "+school1, e));
         }
         for (let i = 0; i < Object.keys(rcarray).length; i++) {
             const e = Object.keys(rcarray)[i];
-            $("#bowchoose").append(new Option(e+ " - PD", e));
+            $("#player2choose").append(new Option(e+  " - "+school1, e));
         }
         for (let i = 0; i < Object.keys(rcarray).length; i++) {
             const e = Object.keys(rcarray)[i];
-            $("#playercchoose").append(new Option(e+ " - PD", e));
+            $("#bowchoose").append(new Option(e+  " - "+school1, e));
         }
-         } 
- )).then(
- 
-    callpu()
- )
- function callpu(){
-    database.ref('player/bat1/name').on('value', snapshot => {
-        batter1 = snapshot.val();
-        $$('player1choose').value = snapshot.val()
-        
-     })
-    
-     database.ref('player/bat2/name').on('value', snapshot => {
-        batter2 = snapshot.val();
-        $$('player2choose').value = snapshot.val()
-    
-     })
-    
-     database.ref('player/bow/name').on('value', snapshot => {
-        bowler = snapshot.val();
-        $$('bowchoose').value = snapshot.val()
-    
-     })
- }
+       }
+         }).then(
+            database.ref('team'+school2).once('value', snapshot => {
+                rcarray = snapshot.val();
+
+              if(rcarray!=null){
+                console.log(rcarray)
+                for (let i = 0; i < Object.keys(rcarray).length; i++) {
+                    const e = Object.keys(rcarray)[i];
+                    $("#player1choose").append(new Option(e+ " - "+school2, e));
+                }
+                for (let i = 0; i < Object.keys(rcarray).length; i++) {
+                    const e = Object.keys(rcarray)[i];
+                    $("#player2choose").append(new Option(e+  " - "+school2, e));
+                }
+                for (let i = 0; i < Object.keys(rcarray).length; i++) {
+                    const e = Object.keys(rcarray)[i];
+                    $("#bowchoose").append(new Option(e+  " - "+school2, e));
+                }
+                for (let i = 0; i < Object.keys(rcarray).length; i++) {
+                    const e = Object.keys(rcarray)[i];
+                    $("#playercchoose").append(new Option(e+ " - "+school2, e));
+                }
+              }
+                 } 
+         )).then(
+         
+            callpu()
+         )
+         function callpu(){
+            database.ref('player/bat1/name').on('value', snapshot => {
+                batter1 = snapshot.val();
+                $$('player1choose').value = snapshot.val()
+                
+             })
+            
+             database.ref('player/bat2/name').on('value', snapshot => {
+                batter2 = snapshot.val();
+                $$('player2choose').value = snapshot.val()
+            
+             })
+            
+             database.ref('player/bow/name').on('value', snapshot => {
+                bowler = snapshot.val();
+                $$('bowchoose').value = snapshot.val()
+            
+             })
+         }
+}
 
 function docatch(){
     $$('playercchoose').style.display = "none"
@@ -1010,3 +1016,27 @@ bat:"no"
 
 //ADDED CORDS
 
+database.ref('couple').on('value', snapshot => {
+    $$('sc2').value = snapshot.val()["sc2"]
+    $$('sc1').value = snapshot.val()["sc1"]
+    school2 = snapshot.val()["sc2"]
+    school1 =  snapshot.val()["sc1"]
+    loadplayers()
+  })
+
+
+
+
+  function updatescls(){
+  console.log("updated!")
+    database.ref('couple/').update({
+     sc1: $$('sc1').value,
+     sc2: $$('sc2').value
+            })
+  }
+
+  function uuu(a){
+    database.ref('teamMC/'+a).update({
+        fn:a
+            })
+  }
