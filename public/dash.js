@@ -1036,7 +1036,7 @@ database.ref('couple').on('value', snapshot => {
   }
 
   function uuu(a){
-    database.ref('teamMC/'+a).update({
+    database.ref('teamSA/'+a).update({
         fn:a
             })
   }
