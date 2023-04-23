@@ -205,6 +205,7 @@ database.ref('dotlist').update({
 
         database.ref('scores/last/marks').update(JSON.parse('{"ball'+dotlist+'":"'+b+'"}'))
     } else{
+        limit=6
         for (let i = 0; i < 10; i++) {
             console.log(i+"ay")
             database.ref('scores/last/marks').update(JSON.parse('{"ball'+i+'":"non"}')).then(
